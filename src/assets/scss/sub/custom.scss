@@ -1,0 +1,71 @@
+
+
+body {
+    background-color: #f8f8f8;
+    padding-top: 60px; /* Adjust according to the height of your header */
+}
+
+.wrapper {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+  
+  .page-layout {
+    margin-bottom: 4rem;
+    margin-top: 78px;
+    min-height: calc(100vh - 426px);
+    background-size: 100%;
+  }
+
+
+/* To fix the header position */
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000; /* Ensure the header is above other content */
+    background-color: #fff; /* Add a background color if needed */
+    border-bottom: 1px solid #cdcdcd; /* Optional: add a border for better visibility */
+}
+
+/* To match the Figma color */
+footer {
+    .footer__nav-links-column {
+        min-width: 280px; /* custom */
+    }
+    [dir="rtl"] & {
+        justify-content: flex-start;
+        /* Media query for screens with a width of 1780 pixels */
+        @media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 1.5) {
+            /* Styles for screens with a width of 1780 pixels */
+            justify-content: center;
+        }
+    }
+    a {
+        color: var(--colors-gray-neutral-700);
+        font-size: 16px;
+    }
+    &--bg-default {
+        background-color: var(--colors-gray-neutral-100);
+    }
+    &--bg-brand {
+        background-color: var(--colors-brand-900);
+    }
+}
+
+/* Custom styles due to the lack of these classes */
+
+.app-card {
+    border: 1px solid #cdcdcd;
+    background: #fff;
+    .top-section {
+        border-bottom: 1px solid #cdcdcd;
+        background: #f7f7f7;
+    }
+}
+
+.text-primary-brand {
+    color: #1b8354;
+}

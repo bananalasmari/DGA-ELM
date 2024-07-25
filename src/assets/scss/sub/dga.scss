@@ -4917,7 +4917,7 @@ div.table-wrapper .azm-structured-table tbody td {
   width: 100%;
   min-height: 72px;
   display: flex;
-  height: 72px;
+  height: 72px; 
   z-index: 99;
   background-color: var(--colors-base-white);
 }
@@ -5614,7 +5614,7 @@ div.table-wrapper .azm-structured-table tbody td {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--spacing-xl);
+  gap: var(--spacing-lg);
   flex: 1;
 }
 @media only screen and (max-width: 56.25em) {
@@ -7196,3 +7196,6 @@ dialog .modal {
 .flex-align-stretch {
   align-items: stretch;
 }
+
+
+
