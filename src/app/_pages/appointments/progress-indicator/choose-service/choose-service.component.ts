@@ -40,6 +40,6 @@ export class ChooseServiceComponent  implements OnInit {
 
   toggleCheckbox(service: any): void {
     service.isChecked = !service.isChecked;
-    service.isIndeterminate = false; // Example logic, adjust as needed
+    service.isIndeterminate = false; 
   }
 }
