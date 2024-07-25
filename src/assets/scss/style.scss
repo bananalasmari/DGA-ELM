@@ -492,6 +492,6 @@
     --bs-body-font-family: "IBMPlexSansArabic" !important;
 }
 
-@import "bootstrap/bootstrap"; // v5.3.0 // local version for GRID SYSTEM ONLY
+@import "bootstrap/bootstrap"; // v5.3.0 // local version for GRID SYSTEM ONLY - Lack of DGA
 @import "sub/dga.scss"; // to enable DGA library
 @import "sub/custom.scss"; // to enable DGA library

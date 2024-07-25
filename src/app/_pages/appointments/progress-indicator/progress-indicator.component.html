@@ -1,0 +1,59 @@
+<div class="page-layout">
+  <div class="container">
+    <div class="row flex-center">
+      <div class="col-md-11">
+        <div class="app-card flex-column w-100 bg-white">
+          <div class="top-section p-4">
+            <h3>{{ title }}</h3>
+          </div>
+          <div class="row">
+            <div class="text-center">
+              <div class="flex-center items-center _pattern_1yita_1 py-6">
+                <div class="progress-indicator flex" data-alignment="horizontal">
+                  <div class="progress-indicator__step" *ngFor="let step of steps; let i = index">
+                    <div class="progress-indicator__step-content flex-column">
+                      <div class="step-label" [attr.data-state]="step.state">
+                        <span class="step-label--circle">
+                          <ng-container *ngIf="step.state === 'completed'; else notCompleted">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24" fill="none" color="currentColor">
+                              <path d="M5 14L8.5 17.5L19 6.5" stroke="currentColor"
+                                  stroke-linecap="round" stroke-linejoin="round"
+                                  stroke-width="1.5"></path>
+                            </svg>
+                          </ng-container>
+                          <ng-template #notCompleted>
+                            {{ i + 1 }}
+                          </ng-template>
+                        </span>
+                      </div>
+                      <div class="step-text flex-column text-md-medium fw-light text-nowrap text-right">
+                        <span>{{ step.label }}</span>
+                      </div>
+                    </div>
+                    <span class="progress-indicator__step-connector"
+                        [ngClass]="{ 'progress-indicator__step-connector--active': step.state === 'completed' }"
+                        *ngIf="i < steps.length - 1"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-4">
+                <div class="col-12">
+                  <ng-container *ngFor="let step of steps">
+                    <ng-container *ngIf="step.state === 'current'">
+                      <ng-container *ngComponentOutlet="step.component"></ng-container>
+                    </ng-container>
+                  </ng-container>
+                </div>
+              </div>
+              <div class="mt-4 mb-12 pb-12">
+                <button class="btn btn--md btn--secondary mr-2" (click)="previousStep()" [disabled]="currentStepIndex === 0">السابق</button>
+                <button class="btn btn--md btn--primary-brand" (click)="nextStep()" [disabled]="currentStepIndex === steps.length - 1">التالي</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

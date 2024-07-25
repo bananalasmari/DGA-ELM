@@ -69,3 +69,37 @@ footer {
 .text-primary-brand {
     color: #1b8354;
 }
+
+.progress-indicator__step {
+    width: 115px;
+}
+
+.notification__lead-text {
+    font-weight: 600;
+}
+
+div.table-wrapper .azm-table thead th span {
+    font-size: 16px;
+    font-weight: 300;
+}
+
+.text-error {
+    color: var(--colors-text-error-primary);
+}
+
+.alert--light {
+    border-radius: var(--Radius-radius-md, 8px);
+border: 1px solid var(--Border-border-neutral-primary, #D2D6DB);
+background: var(--Background-background-notification-white, #FFF);
+}
+.alert--light:after {
+    content: "";
+    background-color: #D2D6DB;
+}
+
+// icons 
+.check-icon {
+    &::before {
+      content: url("../../../assets/images/checked.svg");
+    }
+  }

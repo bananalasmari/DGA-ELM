@@ -2118,6 +2118,7 @@ html[lang="ar"] .notification-toast__close-btn {
   border: 1px solid var(--colors-gray-neutral-300);
   position: relative;
   overflow: hidden;
+  font-size: 16px; // as per FIGMA file
 }
 .alert:after {
   content: "";
@@ -2125,6 +2126,9 @@ html[lang="ar"] .notification-toast__close-btn {
   height: 100%;
   width: 8px;
   left: 0;
+  [dir="rtl"] & {
+    right: 0; //RTL
+  }
   top: 0;
   background-color: var(--colors-error-400);
   position: absolute;
