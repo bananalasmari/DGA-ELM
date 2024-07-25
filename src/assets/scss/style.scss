@@ -1,0 +1,8 @@
+@charset "UTF-8";
+
+:root {
+    --bs-body-font-family: "IBMPlexSansArabic" !important;
+}
+
+@import "bootstrap/bootstrap"; // v5.3.0 // local version for GRID SYSTEM ONLY
+@import "sub/dga"; // to enable DGA library
