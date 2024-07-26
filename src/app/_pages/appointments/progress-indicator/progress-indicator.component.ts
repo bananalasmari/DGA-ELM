@@ -19,7 +19,16 @@ interface Step {
 @Component({
   selector: 'app-progress-indicator',
   standalone: true,
-  imports: [CommonModule, ChooseServiceDialogComponent, AvailableAppointmentComponent, ChooseServiceComponent, ChooseBranchComponent, ChooseAppointmentComponent, ConfrimAppointmentComponent, AppointmentTicketComponent],
+  imports: [
+    CommonModule,
+    ChooseServiceDialogComponent,
+    AvailableAppointmentComponent,
+    ChooseServiceComponent,
+    ChooseBranchComponent,
+    ChooseAppointmentComponent,
+    ConfrimAppointmentComponent,
+    AppointmentTicketComponent
+  ],
   templateUrl: './progress-indicator.component.html',
   styleUrls: ['./progress-indicator.component.scss']
 })
@@ -28,6 +37,7 @@ export class ProgressIndicatorComponent implements OnInit {
   currentStepIndex: number = 0;
   showDialog: boolean = false;
   showTable: boolean = false;
+  finalStage: boolean = false; // Track if at final stage
 
   rows: any[] = new Array(18).fill(null); // Create an array with 18 empty elements
   pageSize: number = 6; // Number of rows per page
@@ -45,19 +55,7 @@ export class ProgressIndicatorComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    const savedIndex = localStorage.getItem('currentStepIndex');
-    if (savedIndex) {
-      this.currentStepIndex = +savedIndex;
-      this.steps.forEach((step, index) => {
-        if (index < this.currentStepIndex) {
-          step.state = 'completed';
-        } else if (index === this.currentStepIndex) {
-          step.state = 'current';
-        } else {
-          step.state = 'upcoming';
-        }
-      });
-    }
+    this.loadStateFromLocalStorage();
   }
 
   nextStep(): void {
@@ -67,7 +65,14 @@ export class ProgressIndicatorComponent implements OnInit {
     } else if (this.currentStepIndex < this.steps.length - 1) {
       if (this.steps[this.currentStepIndex].nextAction) {
         this.steps[this.currentStepIndex].nextAction!();
+      } else {
+        this.defaultNext();
       }
+    }
+
+    // Check if at the final stage
+    if (this.currentStepIndex === this.steps.length - 1) {
+      this.finalStage = true;
     }
   }
 
@@ -75,6 +80,8 @@ export class ProgressIndicatorComponent implements OnInit {
     if (this.currentStepIndex > 0) {
       if (this.steps[this.currentStepIndex].previousAction) {
         this.steps[this.currentStepIndex].previousAction!();
+      } else {
+        this.defaultPrevious();
       }
     }
   }
@@ -90,6 +97,7 @@ export class ProgressIndicatorComponent implements OnInit {
   onDialogConfirm() {
     this.showDialog = false;
     this.showTable = true;
+    this.saveStateToLocalStorage();
   }
 
   availableAppointmentNext() {
@@ -116,14 +124,24 @@ export class ProgressIndicatorComponent implements OnInit {
     this.steps[this.currentStepIndex].state = 'completed';
     this.currentStepIndex++;
     this.steps[this.currentStepIndex].state = 'current';
-    localStorage.setItem('currentStepIndex', this.currentStepIndex.toString());
+    this.saveStateToLocalStorage();
+
+    // Check if at the final stage
+    if (this.currentStepIndex === this.steps.length - 1) {
+      this.finalStage = true;
+    } else {
+      this.finalStage = false;
+    }
   }
 
   defaultPrevious() {
     this.steps[this.currentStepIndex].state = 'upcoming';
     this.currentStepIndex--;
     this.steps[this.currentStepIndex].state = 'current';
-    localStorage.setItem('currentStepIndex', this.currentStepIndex.toString());
+    this.saveStateToLocalStorage();
+
+    // Update final stage status
+    this.finalStage = this.currentStepIndex === this.steps.length - 1;
   }
 
   get paginatedRows(): any[] {
@@ -142,5 +160,53 @@ export class ProgressIndicatorComponent implements OnInit {
     if (this.currentPage * this.pageSize < this.rows.length) {
       this.currentPage++;
     }
+  }
+
+  saveStateToLocalStorage() {
+    localStorage.setItem('currentStepIndex', this.currentStepIndex.toString());
+    localStorage.setItem('showTable', JSON.stringify(this.showTable));
+  }
+
+  loadStateFromLocalStorage() {
+    const savedIndex = localStorage.getItem('currentStepIndex');
+    if (savedIndex !== null) {
+      this.currentStepIndex = +savedIndex;
+    }
+
+    const savedShowTable = localStorage.getItem('showTable');
+    if (savedShowTable !== null) {
+      this.showTable = JSON.parse(savedShowTable);
+    }
+
+    this.steps.forEach((step, index) => {
+      if (index < this.currentStepIndex) {
+        step.state = 'completed';
+      } else if (index === this.currentStepIndex) {
+        step.state = 'current';
+      } else {
+        step.state = 'upcoming';
+      }
+    });
+
+    // Check if at the final stage
+    this.finalStage = this.currentStepIndex === this.steps.length - 1;
+  }
+
+  backToAppointment() {
+    this.steps.forEach(step => step.state = 'upcoming'); // Reset all steps to upcoming
+    this.currentStepIndex = 0;
+    this.steps[this.currentStepIndex].state = 'current'; // Set the first step to current
+    this.finalStage = false; // Ensure final stage is set to false
+    this.showTable = false; // Hide the table
+    this.saveStateToLocalStorage(); // Save the state to local storage
+  }
+
+  printAppointment() {
+    window.print();
+  }
+
+  downloadAppointment() {
+    // Custom logic for downloading appointments
+    console.log('Download appointment');
   }
 }

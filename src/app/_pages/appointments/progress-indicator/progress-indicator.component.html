@@ -72,27 +72,29 @@
                     </tr>
                   </tbody>
                 </table>
-                
-                <!-- Pagination Controls -->
-                <!-- <div class="pagination-controls mt-4">
-                  <button class="btn btn--md btn--secondary mr-2" (click)="previousPage()" [disabled]="currentPage === 1">السابق</button>
-                  <span class="mx-2">
-                    <ng-container *ngFor="let page of pages; let i = index">
-                      <button class="btn btn--md btn--page-number" [class.active]="currentPage === page" (click)="goToPage(page)">{{ page }}</button>
-                    </ng-container>
-                  </span>
-                  <button class="btn btn--md btn--primary-brand px-4" (click)="nextPage()" [disabled]="currentPage === totalPages">التالي</button>
-                </div> -->
               </div>
-              <div class="mt-4 mb-12 pb-12">
+              <div class="mt-4 mb-12 pb-12" *ngIf="!finalStage">
                 <button class="btn btn--md btn--secondary mr-2" (click)="previousStep()"
                   [disabled]="currentStepIndex === 0">السابق</button>
                 <button class="btn btn--md btn--primary-brand px-4" (click)="nextStep()"
                   [disabled]="currentStepIndex === steps.length - 1">التالي</button>
               </div>
-              <app-choose-service-dialog *ngIf="showDialog" (close)="onDialogClose()"
-                (confirm)="onDialogConfirm()"></app-choose-service-dialog>
+              <!-- Final Stage Buttons -->
+              <div class="row justify-content-center mt-4" *ngIf="finalStage">
+                <div class="col-md-3">
+                  <button class="btn btn--md btn--secondary w-100" (click)="backToAppointment()">العودة إلى
+                    المواعيد</button>
+                </div>
+                <div class="col-md-3">
+                  <button class="btn btn--md btn--primary-brand w-100" (click)="printAppointment()">طباعة</button>
+                </div>
+                <div class="col-md-3">
+                  <button class="btn btn--md btn--primary-brand w-100" (click)="downloadAppointment()">تنزيل</button>
+                </div>
+              </div>
             </div>
+            <app-choose-service-dialog *ngIf="showDialog" (close)="onDialogClose()"
+              (confirm)="onDialogConfirm()"></app-choose-service-dialog>
           </div>
         </div>
       </div>
