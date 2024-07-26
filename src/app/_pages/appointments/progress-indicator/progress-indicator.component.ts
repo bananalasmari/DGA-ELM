@@ -7,6 +7,8 @@ import { ChooseAppointmentComponent } from './choose-appointment/choose-appointm
 import { ConfrimAppointmentComponent } from './confrim-appointment/confrim-appointment.component';
 import { AppointmentTicketComponent } from './appointment-ticket/appointment-ticket.component';
 import { ChooseServiceDialogComponent } from '../../../shared/components/custom-dialog.component';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 interface Step {
   label: string;
@@ -205,8 +207,27 @@ export class ProgressIndicatorComponent implements OnInit {
     window.print();
   }
 
-  downloadAppointment() {
-    // Custom logic for downloading appointments
-    console.log('Download appointment');
+  async downloadAppointment() {
+    const doc = new jsPDF();
+    const element = document.body; // Or specify a specific element to print
+    const canvas = await html2canvas(element);
+    const imgData = canvas.toDataURL('image/png');
+    const imgWidth = 210; // A4 size width in mm
+    const pageHeight = 295; // A4 size height in mm
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+    let heightLeft = imgHeight;
+    let position = 0;
+
+    doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+    heightLeft -= pageHeight;
+
+    while (heightLeft >= 0) {
+      position = heightLeft - imgHeight;
+      doc.addPage();
+      doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+    }
+
+    doc.save('appointment.pdf');
   }
 }

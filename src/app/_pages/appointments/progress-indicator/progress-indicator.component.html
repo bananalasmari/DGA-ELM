@@ -80,17 +80,10 @@
                   [disabled]="currentStepIndex === steps.length - 1">التالي</button>
               </div>
               <!-- Final Stage Buttons -->
-              <div class="row justify-content-center mt-4" *ngIf="finalStage">
-                <div class="col-md-3">
-                  <button class="btn btn--md btn--secondary w-100" (click)="backToAppointment()">العودة إلى
-                    المواعيد</button>
-                </div>
-                <div class="col-md-3">
-                  <button class="btn btn--md btn--primary-brand w-100" (click)="printAppointment()">طباعة</button>
-                </div>
-                <div class="col-md-3">
-                  <button class="btn btn--md btn--primary-brand w-100" (click)="downloadAppointment()">تنزيل</button>
-                </div>
+              <div class="text-end px-6 mb-6 mt-4" *ngIf="finalStage">
+                  <button class="btn btn--lg btn--primary-brand" (click)="backToAppointment()"> العودة لقائمة المواعيد</button>
+                  <button class="btn btn--lg btn--primary-brand" (click)="printAppointment()">طباعة</button>
+                  <button class="btn btn--lg btn--primary-brand px-40" (click)="downloadAppointment()">تحميل نموذج إصدار الهوية الوطنية</button>
               </div>
             </div>
             <app-choose-service-dialog *ngIf="showDialog" (close)="onDialogClose()"

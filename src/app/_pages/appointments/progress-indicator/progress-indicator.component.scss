@@ -1,0 +1,13 @@
+@media print {
+    /* Hide elements that should not be printed */
+    .no-print {
+      display: none;
+    }
+  
+    /* Adjust styles for printing */
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100
+    }
+}
