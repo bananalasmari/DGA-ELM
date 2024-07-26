@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -9,7 +9,13 @@ import { CommonModule } from '@angular/common';
   templateUrl: './choose-service.component.html',
   styleUrl: './choose-service.component.scss'
 })
-export class ChooseServiceComponent  implements OnInit {
+export class ChooseServiceComponent implements OnInit {
+
+  selectedOption: string | any;
+  options: string[] = ['اختيار', 'اختيار', 'اختيار', 'اختيار'];
+  isOpen: boolean = false;
+  currentIndex: number = -1;
+  
   services = [
     { label: 'اصدار بطاقة الهوية الوطنية جديدة', isChecked: false, isIndeterminate: false },
     { label: 'إصدار شهادة ميلاد جديدة', isChecked: false, isIndeterminate: false },
@@ -40,6 +46,38 @@ export class ChooseServiceComponent  implements OnInit {
 
   toggleCheckbox(service: any): void {
     service.isChecked = !service.isChecked;
-    service.isIndeterminate = false; 
+    service.isIndeterminate = false;
+  }
+
+
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (this.isOpen) {
+      if (event.key === 'ArrowDown') {
+        this.currentIndex = (this.currentIndex + 1) % this.options.length;
+      } else if (event.key === 'ArrowUp') {
+        this.currentIndex = (this.currentIndex - 1 + this.options.length) % this.options.length;
+      } else if (event.key === 'Enter') {
+        if (this.currentIndex >= 0 && this.currentIndex < this.options.length) {
+          this.selectOption(this.options[this.currentIndex]);
+        }
+      } else if (event.key === 'Escape') {
+        this.isOpen = false;
+      }
+    } else {
+      if (event.key === 'ArrowDown') {
+        this.isOpen = true;
+        this.currentIndex = 0;
+      }
+    }
+  }
+
+  toggleDropdown() {
+    this.isOpen = !this.isOpen;
+  }
+
+  selectOption(option: string) {
+    this.selectedOption = option;
+    this.isOpen = false; 
   }
 }
