@@ -28,9 +28,9 @@
     [@datePickerAnimation]="showDatePicker ? 'open' : 'closed'">
     <div class="date-picker">
         <div class="date-picker__navigator">
-            <button (click)="previousMonth()" class="btn des-subtle btn--md">&#8249;</button>
-            <div class="date-picker__navigator-label">{{ currentMonth | date: 'MMMM yyyy' }}</div>
-            <button (click)="nextMonth()" class="btn des-subtle btn--md">&#8250;</button>
+            <button (click)="previousMonth()" class="btn btn--lg btn--subtle btn--icon">&#8249;</button>
+            <button (click)="nextMonth()" class="btn btn--lg btn--subtle btn--icon">&#8250;</button>
+            <div class="date-picker__navigator-label text-left">{{ currentMonth | date: 'MMMM yyyy' }}</div>
         </div>
         <div class="date-picker__weekdays">
             <div class="date-picker__weekday" *ngFor="let day of weekDays">{{ day }}</div>
