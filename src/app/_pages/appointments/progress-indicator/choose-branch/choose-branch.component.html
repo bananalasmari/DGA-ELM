@@ -1,1 +1,60 @@
-<p>choose-branch works!</p>
+<div>
+    <div class="flex-center">
+        <div class="notification__content">
+            <div class="alert alert--info-bg notification--info py-4 mb-3">
+                <div class="notification-toast__header">
+                    <span class="alert-info-icon"></span>
+                    <span class="notification__lead-text">في حالة إختلاف التاريخ الهجري عن الميلادي لليوم المحدد، نرجو
+                        إعتماد التاريخ الميلادي</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="text-right">
+            <div class="pt-3 px-5">
+                <label class="text-sm-medium fw-light">قم باختيار التاريخ المطلوب لحجز الموعد</label>
+                <div class="col-md-5">
+                    <div class="flex-between mt-4">
+                        <div class="date-picker-root__main__inputs">
+                            <input 
+                              type="text" 
+                              class="input"
+                              [value]="selectedDate ? (selectedDate | date: 'yyyy-MM-dd') : ''" 
+                              (focus)="showDatePicker = true" 
+                              readonly
+                              placeholder="اختر تاريخ"
+                            />
+                          
+                            <div *ngIf="showDatePicker" class="date-picker-root">
+                              <div class="date-picker-root__main__content-wrapper">
+                                <div class="date-picker">
+                                  <div class="date-picker__navigator">
+                                    <button (click)="previousMonth()">&#8249;</button>
+                                    <div class="date-picker__navigator-label">{{ currentMonth | date: 'MMMM yyyy' }}</div>
+                                    <button (click)="nextMonth()">&#8250;</button>
+                                  </div>
+                                  <div class="date-picker__weekdays">
+                                    <div class="date-picker__weekday" *ngFor="let day of weekDays">{{ day }}</div>
+                                  </div>
+                                  <div class="date-picker__date-grid">
+                                    <div class="date-cell" *ngFor="let date of dates" [ngClass]="getDateClass(date)" (click)="selectDate(date)">
+                                      <div class="date-cell__label">
+                                        <span>{{ date.getDate() }}</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        <button class="btn btn--lg btn--primary-brand px-4 mx-3">
+                            <span class="search-icon pt-1 px-2"></span>
+                            <span>البحث عن المواعيد</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

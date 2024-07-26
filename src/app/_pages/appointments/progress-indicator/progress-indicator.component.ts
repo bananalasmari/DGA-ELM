@@ -29,7 +29,9 @@ export class ProgressIndicatorComponent implements OnInit {
   showDialog: boolean = false;
   showTable: boolean = false;
 
-  rows: any[] = new Array(6).fill(null); // Create an array with 6 empty elements
+  rows: any[] = new Array(18).fill(null); // Create an array with 18 empty elements
+  pageSize: number = 6; // Number of rows per page
+  currentPage: number = 1; // Current page
 
   steps: Step[] = [
     { label: 'المواعيد المتاحة', state: 'current', component: AvailableAppointmentComponent, nextAction: () => this.availableAppointmentNext(), previousAction: () => this.defaultPrevious() },
@@ -122,5 +124,23 @@ export class ProgressIndicatorComponent implements OnInit {
     this.currentStepIndex--;
     this.steps[this.currentStepIndex].state = 'current';
     localStorage.setItem('currentStepIndex', this.currentStepIndex.toString());
+  }
+
+  get paginatedRows(): any[] {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    return this.rows.slice(startIndex, endIndex);
+  }
+
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
+  }
+
+  nextPage(): void {
+    if (this.currentPage * this.pageSize < this.rows.length) {
+      this.currentPage++;
+    }
   }
 }

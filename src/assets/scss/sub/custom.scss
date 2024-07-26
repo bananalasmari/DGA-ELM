@@ -108,3 +108,23 @@ background: var(--Background-background-notification-white, #FFF);
       content: url("../../../assets/images/arrow.svg");
     }
   }
+  .filter-icon {
+    &::before {
+      content: url("../../../assets/images/filter.svg");
+    }
+  }
+  .arrow-right-icon {
+    &::before {
+      content: url("../../../assets/images/arrow-table.svg");
+    }
+  }
+  .alert-info-icon {
+    &::before {
+      content: url("../../../assets/images/alert-info.svg");
+    }
+  }
+  .search-icon {
+    &::before {
+      content: url("../../../assets/images/search-icon.svg");
+    }
+  }

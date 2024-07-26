@@ -15,7 +15,7 @@ export class ChooseServiceComponent implements OnInit {
   options: string[] = ['اختيار', 'اختيار', 'اختيار', 'اختيار'];
   isOpen: boolean = false;
   currentIndex: number = -1;
-  
+
   services = [
     { label: 'اصدار بطاقة الهوية الوطنية جديدة', isChecked: false, isIndeterminate: false },
     { label: 'إصدار شهادة ميلاد جديدة', isChecked: false, isIndeterminate: false },
@@ -78,6 +78,6 @@ export class ChooseServiceComponent implements OnInit {
 
   selectOption(option: string) {
     this.selectedOption = option;
-    this.isOpen = false; 
+    this.isOpen = false;
   }
 }
