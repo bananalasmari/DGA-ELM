@@ -27,6 +27,9 @@ export class ProgressIndicatorComponent implements OnInit {
   title: string = 'مواعيد الأحوال - قائمة المواعيد';
   currentStepIndex: number = 0;
   showDialog: boolean = false;
+  showTable: boolean = false;
+
+  rows: any[] = new Array(6).fill(null); // Create an array with 6 empty elements
 
   steps: Step[] = [
     { label: 'المواعيد المتاحة', state: 'current', component: AvailableAppointmentComponent, nextAction: () => this.availableAppointmentNext(), previousAction: () => this.defaultPrevious() },
@@ -56,7 +59,10 @@ export class ProgressIndicatorComponent implements OnInit {
   }
 
   nextStep(): void {
-    if (this.currentStepIndex < this.steps.length - 1) {
+    if (this.showTable) {
+      this.showTable = false;
+      this.defaultNext();
+    } else if (this.currentStepIndex < this.steps.length - 1) {
       if (this.steps[this.currentStepIndex].nextAction) {
         this.steps[this.currentStepIndex].nextAction!();
       }
@@ -81,7 +87,7 @@ export class ProgressIndicatorComponent implements OnInit {
 
   onDialogConfirm() {
     this.showDialog = false;
-    this.defaultNext();
+    this.showTable = true;
   }
 
   availableAppointmentNext() {
