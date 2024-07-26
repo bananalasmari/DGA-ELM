@@ -6,6 +6,7 @@ import { ChooseBranchComponent } from './choose-branch/choose-branch.component';
 import { ChooseAppointmentComponent } from './choose-appointment/choose-appointment.component';
 import { ConfrimAppointmentComponent } from './confrim-appointment/confrim-appointment.component';
 import { AppointmentTicketComponent } from './appointment-ticket/appointment-ticket.component';
+import { ChooseServiceDialogComponent } from '../../../shared/components/custom-dialog.component';
 
 interface Step {
   label: string;
@@ -18,13 +19,14 @@ interface Step {
 @Component({
   selector: 'app-progress-indicator',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ChooseServiceDialogComponent, AvailableAppointmentComponent, ChooseServiceComponent, ChooseBranchComponent, ChooseAppointmentComponent, ConfrimAppointmentComponent, AppointmentTicketComponent],
   templateUrl: './progress-indicator.component.html',
   styleUrls: ['./progress-indicator.component.scss']
 })
 export class ProgressIndicatorComponent implements OnInit {
   title: string = 'مواعيد الأحوال - قائمة المواعيد';
   currentStepIndex: number = 0;
+  showDialog: boolean = false;
 
   steps: Step[] = [
     { label: 'المواعيد المتاحة', state: 'current', component: AvailableAppointmentComponent, nextAction: () => this.availableAppointmentNext(), previousAction: () => this.defaultPrevious() },
@@ -58,10 +60,6 @@ export class ProgressIndicatorComponent implements OnInit {
       if (this.steps[this.currentStepIndex].nextAction) {
         this.steps[this.currentStepIndex].nextAction!();
       }
-      this.steps[this.currentStepIndex].state = 'completed';
-      this.currentStepIndex++;
-      this.steps[this.currentStepIndex].state = 'current';
-      localStorage.setItem('currentStepIndex', this.currentStepIndex.toString());
     }
   }
 
@@ -70,38 +68,53 @@ export class ProgressIndicatorComponent implements OnInit {
       if (this.steps[this.currentStepIndex].previousAction) {
         this.steps[this.currentStepIndex].previousAction!();
       }
-      this.steps[this.currentStepIndex].state = 'upcoming';
-      this.currentStepIndex--;
-      this.steps[this.currentStepIndex].state = 'current';
-      localStorage.setItem('currentStepIndex', this.currentStepIndex.toString());
     }
   }
 
-  availableAppointmentNext() {
-    console.log('Available Appointment Next Action');
+  chooseServiceNext() {
+    this.showDialog = true;
   }
 
-  chooseServiceNext() {
-    console.log('Choose Service Next Action');
+  onDialogClose() {
+    this.showDialog = false;
+  }
+
+  onDialogConfirm() {
+    this.showDialog = false;
+    this.defaultNext();
+  }
+
+  availableAppointmentNext() {
+    this.defaultNext();
   }
 
   chooseBranchNext() {
-    console.log('Choose Branch Next Action');
+    this.defaultNext();
   }
 
   chooseAppointmentNext() {
-    console.log('Choose Appointment Next Action');
+    this.defaultNext();
   }
 
   confirmAppointmentNext() {
-    console.log('Confirm Appointment Next Action');
+    this.defaultNext();
   }
 
   appointmentTicketNext() {
-    console.log('Appointment Ticket Next Action');
+    this.defaultNext();
+  }
+
+  defaultNext() {
+    this.steps[this.currentStepIndex].state = 'completed';
+    this.currentStepIndex++;
+    this.steps[this.currentStepIndex].state = 'current';
+    localStorage.setItem('currentStepIndex', this.currentStepIndex.toString());
   }
 
   defaultPrevious() {
-    console.log('Default Previous Action');
+    this.steps[this.currentStepIndex].state = 'upcoming';
+    this.currentStepIndex--;
+    this.steps[this.currentStepIndex].state = 'current';
+    localStorage.setItem('currentStepIndex', this.currentStepIndex.toString());
   }
 }
