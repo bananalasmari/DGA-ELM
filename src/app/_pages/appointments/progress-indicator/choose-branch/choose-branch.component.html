@@ -10,51 +10,149 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="text-right">
-            <div class="pt-3 px-5">
-                <label class="text-sm-medium fw-light">قم باختيار التاريخ المطلوب لحجز الموعد</label>
-                <div class="col-md-5">
-                    <div class="flex-between mt-4">
-                        <div class="date-picker-root__main__inputs">
-                            <input 
-                              type="text" 
-                              class="input"
-                              [value]="selectedDate ? (selectedDate | date: 'yyyy-MM-dd') : ''" 
-                              (focus)="showDatePicker = true" 
-                              readonly
-                              placeholder="اختر تاريخ"
-                            />
-                          
-                            <div *ngIf="showDatePicker" class="date-picker-root">
-                              <div class="date-picker-root__main__content-wrapper">
-                                <div class="date-picker">
-                                  <div class="date-picker__navigator">
-                                    <button (click)="previousMonth()">&#8249;</button>
-                                    <div class="date-picker__navigator-label">{{ currentMonth | date: 'MMMM yyyy' }}</div>
-                                    <button (click)="nextMonth()">&#8250;</button>
-                                  </div>
-                                  <div class="date-picker__weekdays">
-                                    <div class="date-picker__weekday" *ngFor="let day of weekDays">{{ day }}</div>
-                                  </div>
-                                  <div class="date-picker__date-grid">
-                                    <div class="date-cell" *ngFor="let date of dates" [ngClass]="getDateClass(date)" (click)="selectDate(date)">
-                                      <div class="date-cell__label">
-                                        <span>{{ date.getDate() }}</span>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
+    <div class="text-right">
+        <div class="pt-3 px-5">
+            <div class="flex">
+                <div class="col-md-4">
+                    <div class="mt-4">
+                        <label class="text-sm-medium fw-light mb-2">قم باختيار التاريخ المطلوب لحجز الموعد</label>
+                        <div class="flex">
+                            <div class="col-md-10">
+                                <app-date-picker></app-date-picker>
                             </div>
-                          </div>
-                        <button class="btn btn--lg btn--primary-brand px-4 mx-3">
-                            <span class="search-icon pt-1 px-2"></span>
-                            <span>البحث عن المواعيد</span>
-                        </button>
+                            <div class="col-md-12">
+                                <button class="btn btn--lg btn--primary-brand px-4 mx-3" (click)="searchAppointments()">
+                                    <span class="search-icon pt-1 px-2"></span>
+                                    <span>البحث عن المواعيد</span>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
+
+<div class="px-5">
+    <div class="top-section py-2 border my-3">
+        <div class="flex">
+            <label class="radio radio--brand">
+                <div class="radio-main">
+                    <div class="radio-main__content">
+                        <input type="radio" name="radio-button" (click)="onRadioChange('متاح')">
+                        <div class="radio-container"></div>
+                        <div class="flex-column">
+                            <span class="radio__label"
+                                [ngClass]="{'text-dark': selectedRadio === 'متاح', 'text-muted': selectedRadio !== 'متاح'}">متاح</span>
+                        </div>
+                    </div>
+                </div>
+            </label>
+            <label class="radio radio--brand">
+                <div class="radio-main">
+                    <div class="radio-main__content">
+                        <input type="radio" name="radio-button" (click)="onRadioChange('غير متاح')">
+                        <div class="radio-container"></div>
+                        <div class="flex-column">
+                            <span class="radio__label"
+                                [ngClass]="{'text-dark': selectedRadio === 'غير متاح', 'text-muted': selectedRadio !== 'غير متاح'}">غير
+                                متاح</span>
+                        </div>
+                    </div>
+                </div>
+            </label>
+        </div>
+    </div>
+</div>
+
+<!-- Table section -->
+<div *ngIf="showTable" class="table-wrapper table-contained mt-4">
+    <table class="azm-table table-contained" style="direction: rtl;">
+        <thead>
+            <tr class="row-divider">
+                <th>
+                    <span class="text mb-3">الأربعاء</span>
+                    <h4 class="d-block text-right">17/07/2024</h4>
+                    <h4 class="d-block text-right">17/07/2024</h4>
+                </th>
+                <th>
+                    <span class="text mb-3">الخميس</span>
+                    <h4 class="d-block text-right">17/07/2024</h4>
+                    <h4 class="d-block text-right">17/07/2024</h4>
+                </th>
+                <th>
+                    <span class="text mb-3">الجمعة</span>
+                    <h4 class="d-block text-right">17/07/2024</h4>
+                    <h4 class="d-block text-right">17/07/2024</h4>
+                </th>
+                <th>
+                    <span class="text mb-3">الأحد</span>
+                    <h4 class="d-block text-right">17/07/2024</h4>
+                    <h4 class="d-block text-right">17/07/2024</h4>
+                </th>
+                <th>
+                    <span class="text mb-3">السبت</span>
+                    <h4 class="d-block text-right">17/07/2024</h4>
+                    <h4 class="d-block text-right">17/07/2024</h4>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="row-divider alternate text-right" *ngFor="let row of rows">
+                <td colspan="1">
+                    <label class="radio radio--brand">
+                        <div class="radio-main">
+                            <div class="radio-main__content"><input type="radio" name="radio-button">
+                                <div class="radio-container"></div>
+                                <div class="flex-column"><span class="radio__label">خليه</span></div>
+                            </div>
+                        </div>
+                    </label>
+                </td>
+                <td>
+                    <label class="radio radio--brand">
+                        <div class="radio-main">
+                            <div class="radio-main__content"><input type="radio" name="radio-button">
+                                <div class="radio-container"></div>
+                                <div class="flex-column"><span class="radio__label">٧ صباحاً</span></div>
+                            </div>
+                        </div>
+                    </label>
+                </td>
+                <td>
+                    <label class="radio radio--brand">
+                        <div class="radio-main">
+                            <div class="radio-main__content"><input type="radio" name="radio-button">
+                                <div class="radio-container"></div>
+                                <div class="flex-column"><span class="radio__label">٧ صباحاً</span></div>
+                            </div>
+                        </div>
+                    </label>
+                </td>
+                <td>
+                    <label class="radio radio--brand">
+                        <div class="radio-main">
+                            <div class="radio-main__content"><input type="radio" name="radio-button">
+                                <div class="radio-container"></div>
+                                <div class="flex-column"><span class="radio__label">٧ صباحاً</span></div>
+                            </div>
+                        </div>
+                    </label>
+                </td>
+                <td>
+                    <label class="radio radio--brand">
+                        <div class="radio-main">
+                            <div class="radio-main__content"><input type="radio" name="radio-button">
+                                <div class="radio-container"></div>
+                                <div class="flex-column"><span class="radio__label">٧ صباحاً</span></div>
+                            </div>
+                        </div>
+                    </label>
+                </td>
+
+
+            </tr>
+        </tbody>
+    </table>
 </div>
