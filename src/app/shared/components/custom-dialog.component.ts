@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
   template: `
     <div class="dialog-overlay" (click)="onClose()">
       <div class="dialog-content" (click)="$event.stopPropagation()">
-        <h1 class="modal__heading">تنويه</h1>
+        <h1 class="modal__heading mt-6 mb-3">تنويه</h1>
         <h5 class="fw-light">حجز موعد لإصدار الهوية الوطنية من دون تسجيل الدخول على حسابك في منصة أبشر لن يمكنك من الاستفادة من خدمة طلب توصيل الهوية، للاستفادة من الخدمة يرجى تسجيل الدخول إلى منصة أبشر.</h5>
         <div class="dialog-actions">
           <button class="btn btn--md btn--secondary px-120" (click)="onClose()">لا</button>
