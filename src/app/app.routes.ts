@@ -8,9 +8,11 @@ export const routes: Routes = [
         path: '',
         component: InnerLayoutComponent,
         children: [
-            { path: 'appointment', component: AppointmentsComponent},
-            { path: 'reserve', component: ProgressIndicatorComponent},
-    
+          { path: '', redirectTo: 'home', pathMatch: 'full' },
+          { path: 'home', component: LandingComponent },
+          { path: 'appointment', component: AppointmentsComponent },
+          { path: 'reserve', component: ProgressIndicatorComponent },
         ]
       },
+      { path: '**', redirectTo: 'home' }
 ];

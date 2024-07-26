@@ -97,6 +97,23 @@ background: var(--Background-background-notification-white, #FFF);
     background-color: #D2D6DB;
 }
 
+.badge--error {
+  color: $white;
+    display: inline-flex;
+    height: 26.667px;
+    padding: var(--spacing-none, 0px) var(--spacing-md, 8px);
+    justify-content: flex-end;
+    align-items: center;
+    gap: var(--spacing-md, 8px);
+    flex-shrink: 0;
+    border-radius: var(--radius-full, 9999px);
+    background: var(--Tag-tag-background-error, #D92D20);
+}
+
+.card {
+  margin: 0 auto;
+}
+
 // icons 
 .check-icon {
     &::before {
