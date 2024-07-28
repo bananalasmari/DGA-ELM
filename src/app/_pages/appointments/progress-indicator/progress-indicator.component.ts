@@ -38,12 +38,7 @@ export class ProgressIndicatorComponent implements OnInit {
   title: string = 'مواعيد الأحوال - قائمة المواعيد';
   currentStepIndex: number = 0;
   showDialog: boolean = false;
-  showTable: boolean = false;
   finalStage: boolean = false; // Track if at final stage
-
-  rows: any[] = new Array(18).fill(null); // Create an array with 18 empty elements
-  pageSize: number = 6; // Number of rows per page
-  currentPage: number = 1; // Current page
 
   steps: Step[] = [
     { label: 'المواعيد المتاحة', state: 'current', component: AvailableAppointmentComponent, nextAction: () => this.availableAppointmentNext(), previousAction: () => this.defaultPrevious() },
@@ -61,10 +56,9 @@ export class ProgressIndicatorComponent implements OnInit {
   }
 
   nextStep(): void {
-    if (this.showTable) {
-      this.showTable = false;
-      this.defaultNext();
-    } else if (this.currentStepIndex < this.steps.length - 1) {
+    console.log("Next step triggered");
+    if (this.currentStepIndex < this.steps.length - 1) {
+      console.log("Proceeding to the next step");
       if (this.steps[this.currentStepIndex].nextAction) {
         this.steps[this.currentStepIndex].nextAction!();
       } else {
@@ -74,11 +68,13 @@ export class ProgressIndicatorComponent implements OnInit {
 
     // Check if at the final stage
     if (this.currentStepIndex === this.steps.length - 1) {
+      console.log("Reached the final stage");
       this.finalStage = true;
     }
   }
 
   previousStep(): void {
+    console.log("Previous step triggered");
     if (this.currentStepIndex > 0) {
       if (this.steps[this.currentStepIndex].previousAction) {
         this.steps[this.currentStepIndex].previousAction!();
@@ -98,7 +94,7 @@ export class ProgressIndicatorComponent implements OnInit {
 
   onDialogConfirm() {
     this.showDialog = false;
-    this.showTable = true;
+    this.defaultNext();
     this.saveStateToLocalStorage();
   }
 
@@ -123,6 +119,7 @@ export class ProgressIndicatorComponent implements OnInit {
   }
 
   defaultNext() {
+    console.log("Default next step triggered");
     this.steps[this.currentStepIndex].state = 'completed';
     this.currentStepIndex++;
     this.steps[this.currentStepIndex].state = 'current';
@@ -130,6 +127,7 @@ export class ProgressIndicatorComponent implements OnInit {
 
     // Check if at the final stage
     if (this.currentStepIndex === this.steps.length - 1) {
+      console.log("Reached the final stage in defaultNext");
       this.finalStage = true;
     } else {
       this.finalStage = false;
@@ -137,6 +135,7 @@ export class ProgressIndicatorComponent implements OnInit {
   }
 
   defaultPrevious() {
+    console.log("Default previous step triggered");
     this.steps[this.currentStepIndex].state = 'upcoming';
     this.currentStepIndex--;
     this.steps[this.currentStepIndex].state = 'current';
@@ -146,38 +145,14 @@ export class ProgressIndicatorComponent implements OnInit {
     this.finalStage = this.currentStepIndex === this.steps.length - 1;
   }
 
-  get paginatedRows(): any[] {
-    const startIndex = (this.currentPage - 1) * this.pageSize;
-    const endIndex = startIndex + this.pageSize;
-    return this.rows.slice(startIndex, endIndex);
-  }
-
-  previousPage(): void {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-    }
-  }
-
-  nextPage(): void {
-    if (this.currentPage * this.pageSize < this.rows.length) {
-      this.currentPage++;
-    }
-  }
-
   saveStateToLocalStorage() {
     localStorage.setItem('currentStepIndex', this.currentStepIndex.toString());
-    localStorage.setItem('showTable', JSON.stringify(this.showTable));
   }
 
   loadStateFromLocalStorage() {
     const savedIndex = localStorage.getItem('currentStepIndex');
     if (savedIndex !== null) {
       this.currentStepIndex = +savedIndex;
-    }
-
-    const savedShowTable = localStorage.getItem('showTable');
-    if (savedShowTable !== null) {
-      this.showTable = JSON.parse(savedShowTable);
     }
 
     this.steps.forEach((step, index) => {
@@ -199,7 +174,6 @@ export class ProgressIndicatorComponent implements OnInit {
     this.currentStepIndex = 0;
     this.steps[this.currentStepIndex].state = 'current'; // Set the first step to current
     this.finalStage = false; // Ensure final stage is set to false
-    this.showTable = false; // Hide the table
     this.saveStateToLocalStorage(); // Save the state to local storage
   }
 

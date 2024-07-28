@@ -67,92 +67,36 @@
 </div> -->
 
 <!-- Table section -->
-<!-- <div *ngIf="showTable" class="table-wrapper table-contained mt-4">
+<div class="table-wrapper table-contained mt-4" *ngIf="showTable">
     <table class="azm-table table-contained" style="direction: rtl;">
-        <thead>
-            <tr class="row-divider">
-                <th>
-                    <span class="text mb-3">الأربعاء</span>
-                    <h4 class="d-block text-right">17/07/2024</h4>
-                    <h4 class="d-block text-right">17/07/2024</h4>
-                </th>
-                <th>
-                    <span class="text mb-3">الخميس</span>
-                    <h4 class="d-block text-right">17/07/2024</h4>
-                    <h4 class="d-block text-right">17/07/2024</h4>
-                </th>
-                <th>
-                    <span class="text mb-3">الجمعة</span>
-                    <h4 class="d-block text-right">17/07/2024</h4>
-                    <h4 class="d-block text-right">17/07/2024</h4>
-                </th>
-                <th>
-                    <span class="text mb-3">الأحد</span>
-                    <h4 class="d-block text-right">17/07/2024</h4>
-                    <h4 class="d-block text-right">17/07/2024</h4>
-                </th>
-                <th>
-                    <span class="text mb-3">السبت</span>
-                    <h4 class="d-block text-right">17/07/2024</h4>
-                    <h4 class="d-block text-right">17/07/2024</h4>
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="row-divider alternate text-right" *ngFor="let row of rows">
-                <td colspan="1">
-                    <label class="radio radio--brand">
-                        <div class="radio-main">
-                            <div class="radio-main__content"><input type="radio" name="radio-button">
-                                <div class="radio-container"></div>
-                                <div class="flex-column"><span class="radio__label">خليه</span></div>
-                            </div>
-                        </div>
-                    </label>
-                </td>
-                <td>
-                    <label class="radio radio--brand">
-                        <div class="radio-main">
-                            <div class="radio-main__content"><input type="radio" name="radio-button">
-                                <div class="radio-container"></div>
-                                <div class="flex-column"><span class="radio__label">٧ صباحاً</span></div>
-                            </div>
-                        </div>
-                    </label>
-                </td>
-                <td>
-                    <label class="radio radio--brand">
-                        <div class="radio-main">
-                            <div class="radio-main__content"><input type="radio" name="radio-button">
-                                <div class="radio-container"></div>
-                                <div class="flex-column"><span class="radio__label">٧ صباحاً</span></div>
-                            </div>
-                        </div>
-                    </label>
-                </td>
-                <td>
-                    <label class="radio radio--brand">
-                        <div class="radio-main">
-                            <div class="radio-main__content"><input type="radio" name="radio-button">
-                                <div class="radio-container"></div>
-                                <div class="flex-column"><span class="radio__label">٧ صباحاً</span></div>
-                            </div>
-                        </div>
-                    </label>
-                </td>
-                <td>
-                    <label class="radio radio--brand">
-                        <div class="radio-main">
-                            <div class="radio-main__content"><input type="radio" name="radio-button">
-                                <div class="radio-container"></div>
-                                <div class="flex-column"><span class="radio__label">٧ صباحاً</span></div>
-                            </div>
-                        </div>
-                    </label>
-                </td>
-
-
-            </tr>
-        </tbody>
+      <thead>
+        <tr class="row-divider">
+          <th><span class="text mb-3">اسم الفرع</span></th>
+          <th><span class="text mb-3">المنطقة</span></th>
+          <th><span class="text mb-3">المهام</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-divider alternate text-right" *ngFor="let branch of branches">
+          <td colspan="1">
+            <div class="flex-column">
+              <span class="text">{{ branch.name }}</span>
+            </div>
+          </td>
+          <td>
+            <div class="flex-column">
+              <span class="text">{{ branch.location }}</span>
+            </div>
+          </td>
+          <td>
+            <div class="flex-column">
+              <span class="text">
+                <a class="link" (click)="selectBranch()">اختيار</a>
+              </span>
+            </div>
+          </td>
+        </tr>
+      </tbody>
     </table>
-</div> -->
+  </div>
+  

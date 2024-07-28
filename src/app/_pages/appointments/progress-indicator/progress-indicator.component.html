@@ -39,47 +39,23 @@
               <div class="row mt-4">
                 <div class="col-12">
                   <ng-container *ngFor="let step of steps">
-                    <ng-container *ngIf="step.state === 'current' && !showTable">
-                      <ng-container *ngComponentOutlet="step.component"></ng-container>
+                    <ng-container *ngIf="step.state === 'current'">
+                      <ng-container *ngComponentOutlet="step.component"
+                                    (branchSelected)="nextStep()"></ng-container>
                     </ng-container>
                   </ng-container>
                 </div>
               </div>
-              <div *ngIf="showTable" class="table-wrapper table-contained mt-4">
-                <table class="azm-table table-contained" style="direction: rtl;">
-                  <thead>
-                    <tr class="row-divider">
-                      <th><span class="text">الرقم المرجعي</span></th>
-                      <th><span class="text">وقت وتاريخ الموعد</span></th>
-                      <th><span class="text">وقت وتاريخ الموعد بالهجري</span></th>
-                      <th><span class="text">المهام</span></th>
-                      <th><span class="filter-icon"></span></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr class="row-divider alternate text-right" *ngFor="let row of paginatedRows">
-                      <td colspan="1">خلية</td>
-                      <td colspan="1">خلية</td>
-                      <td colspan="1">خلية</td>
-                      <td colspan="1">
-                        <a class="link link--lg link--brand mt-4 mb-12 pb-12">
-                          <span class="link__label">رابط</span>
-                        </a>
-                      </td>
-                      <td colspan="1">
-                        <a href="#"><span class="arrow-right-icon"></span></a>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+              <div>
+                <button class="btn btn--md btn--primary-brand mt-3 mb-5" *ngIf="currentStepIndex === 0" (click)="nextStep()"
+                [disabled]="currentStepIndex === steps.length - 1">حجز موعد جديد</button>
               </div>
-              <div class="mt-4 mb-12 pb-12" *ngIf="!finalStage">
+              <div class="mt-4 mb-12 pb-12" *ngIf="!finalStage && currentStepIndex !== 0">
                 <button class="btn btn--md btn--secondary mr-2" (click)="previousStep()"
                   [disabled]="currentStepIndex === 0">السابق</button>
                 <button class="btn btn--md btn--primary-brand px-4" (click)="nextStep()"
                   [disabled]="currentStepIndex === steps.length - 1">التالي</button>
               </div>
-              <!-- Final Stage Buttons -->
               <div class="text-end px-6 mb-6 mt-4" *ngIf="finalStage">
                   <button class="btn btn--lg btn--primary-brand" (click)="backToAppointment()"> العودة لقائمة المواعيد</button>
                   <button class="btn btn--lg btn--primary-brand" (click)="printAppointment()">طباعة</button>

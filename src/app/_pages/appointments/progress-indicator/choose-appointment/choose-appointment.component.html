@@ -41,7 +41,7 @@
                 <label class="radio radio--brand">
                     <div class="radio-main">
                         <div class="radio-main__content">
-                            <input type="radio" name="radio-button" (click)="onRadioChange('متاح')">
+                            <input type="radio" name="radio-button" (click)="preventSelection($event)" >
                             <div class="radio-container"></div>
                             <div class="flex-column">
                                 <span class="radio__label"
@@ -53,15 +53,15 @@
                 <label class="radio radio--brand">
                     <div class="radio-main">
                         <div class="radio-main__content">
-                            <input type="radio" name="radio-button" (click)="onRadioChange('غير متاح')">
+                            <input type="radio" name="radio-button" (click)="onRadioChange('غير متاح')" disabled>
                             <div class="radio-container"></div>
                             <div class="flex-column">
-                                <span class="radio__label"
-                                    [ngClass]="{'text-dark': selectedRadio === 'غير متاح', 'text-muted': selectedRadio !== 'غير متاح'}">غير
-                                    متاح</span>
+                                <span class="radio__label radio__label.unavailable">غير متاح</span>
                             </div>
                         </div>
                     </div>
+                    
+                    
                 </label>
             </div>
         </div>
@@ -70,91 +70,86 @@
     <!-- Table section -->
     <div *ngIf="showTable" class="table-wrapper table-contained mt-4">
         <table class="azm-table table-contained" style="direction: rtl;">
-            <thead>
-                <tr class="row-divider">
-                    <th>
-                        <span class="text mb-3">الأربعاء</span>
-                        <h4 class="d-block text-right">17/07/2024</h4>
-                        <h4 class="d-block text-right">17/07/2024</h4>
-                    </th>
-                    <th>
-                        <span class="text mb-3">الخميس</span>
-                        <h4 class="d-block text-right">17/07/2024</h4>
-                        <h4 class="d-block text-right">17/07/2024</h4>
-                    </th>
-                    <th>
-                        <span class="text mb-3">الجمعة</span>
-                        <h4 class="d-block text-right">17/07/2024</h4>
-                        <h4 class="d-block text-right">17/07/2024</h4>
-                    </th>
-                    <th>
-                        <span class="text mb-3">الأحد</span>
-                        <h4 class="d-block text-right">17/07/2024</h4>
-                        <h4 class="d-block text-right">17/07/2024</h4>
-                    </th>
-                    <th>
-                        <span class="text mb-3">السبت</span>
-                        <h4 class="d-block text-right">17/07/2024</h4>
-                        <h4 class="d-block text-right">17/07/2024</h4>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr class="row-divider alternate text-right" *ngFor="let row of rows">
-                    <td colspan="1">
-                        <label class="radio radio--brand">
-                            <div class="radio-main">
-                                <div class="radio-main__content"><input type="radio" name="radio-button">
-                                    <div class="radio-container"></div>
-                                    <div class="flex-column"><span class="radio__label">خليه</span></div>
-                                </div>
-                            </div>
-                        </label>
-                    </td>
-                    <td>
-                        <label class="radio radio--brand">
-                            <div class="radio-main">
-                                <div class="radio-main__content"><input type="radio" name="radio-button">
-                                    <div class="radio-container"></div>
-                                    <div class="flex-column"><span class="radio__label">٧ صباحاً</span></div>
-                                </div>
-                            </div>
-                        </label>
-                    </td>
-                    <td>
-                        <label class="radio radio--brand">
-                            <div class="radio-main">
-                                <div class="radio-main__content"><input type="radio" name="radio-button">
-                                    <div class="radio-container"></div>
-                                    <div class="flex-column"><span class="radio__label">٧ صباحاً</span></div>
-                                </div>
-                            </div>
-                        </label>
-                    </td>
-                    <td>
-                        <label class="radio radio--brand">
-                            <div class="radio-main">
-                                <div class="radio-main__content"><input type="radio" name="radio-button">
-                                    <div class="radio-container"></div>
-                                    <div class="flex-column"><span class="radio__label">٧ صباحاً</span></div>
-                                </div>
-                            </div>
-                        </label>
-                    </td>
-                    <td>
-                        <label class="radio radio--brand">
-                            <div class="radio-main">
-                                <div class="radio-main__content"><input type="radio" name="radio-button">
-                                    <div class="radio-container"></div>
-                                    <div class="flex-column"><span class="radio__label">٧ صباحاً</span></div>
-                                </div>
-                            </div>
-                        </label>
-                    </td>
-    
-    
-                </tr>
-            </tbody>
+          <thead>
+            <tr class="row-divider">
+              <th>الثلاثاء</th>
+              <th>الاثنين</th>
+              <th>الأحد</th>
+              <th>الخميس</th>
+              <th>الأربعاء</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="row-divider text-right" *ngFor="let time of times">
+              <td>
+                <label class="radio radio--brand">
+                  <div class="radio-main">
+                    <div class="radio-main__content">
+                      <input type="radio" name="appointment" [value]="'tuesday-' + time" (change)="onRadioChange('tuesday-' + time)" [disabled]="isUnavailable(time)">
+                      <div class="radio-container"></div>
+                      <div class="flex-column">
+                        <span class="radio__label" [class.unavailable]="isUnavailable(time)">{{ time }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </label>
+              </td>
+              <td>
+                <label class="radio radio--brand">
+                  <div class="radio-main">
+                    <div class="radio-main__content">
+                      <input type="radio" name="appointment" [value]="'monday-' + time" (change)="onRadioChange('monday-' + time)" [disabled]="isUnavailable(time)">
+                      <div class="radio-container"></div>
+                      <div class="flex-column">
+                        <span class="radio__label" [class.unavailable]="isUnavailable(time)">{{ time }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </label>
+              </td>
+              <td>
+                <label class="radio radio--brand">
+                  <div class="radio-main">
+                    <div class="radio-main__content">
+                      <input type="radio" name="appointment" [value]="'sunday-' + time" (change)="onRadioChange('sunday-' + time)" [disabled]="isUnavailable(time)">
+                      <div class="radio-container"></div>
+                      <div class="flex-column">
+                        <span class="radio__label" [class.unavailable]="isUnavailable(time)">{{ time }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </label>
+              </td>
+              <td>
+                <label class="radio radio--brand">
+                  <div class="radio-main">
+                    <div class="radio-main__content">
+                      <input type="radio" name="appointment" [value]="'thursday-' + time" (change)="onRadioChange('thursday-' + time)" [disabled]="isUnavailable(time)">
+                      <div class="radio-container"></div>
+                      <div class="flex-column">
+                        <span class="radio__label" [class.unavailable]="isUnavailable(time)">{{ time }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </label>
+              </td>
+              <td>
+                <label class="radio radio--brand">
+                  <div class="radio-main">
+                    <div class="radio-main__content">
+                      <input type="radio" name="appointment" [value]="'wednesday-' + time" (change)="onRadioChange('wednesday-' + time)" [disabled]="isUnavailable(time)">
+                      <div class="radio-container"></div>
+                      <div class="flex-column">
+                        <span class="radio__label" [class.unavailable]="isUnavailable(time)">{{ time }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </label>
+              </td>
+            </tr>
+          </tbody>
         </table>
-    </div>
+      </div>
+      
+      
 </div>
