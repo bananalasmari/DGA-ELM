@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DatePickerComponent } from '../../../../shared/components/date-picker/date-picker.component';
+import { PaginationComponent } from '../../../../shared/components/pagination/pagination.component';
 
 interface Branch {
   name: string;
@@ -11,7 +12,7 @@ interface Branch {
 @Component({
   selector: 'app-choose-branch',
   standalone: true,
-  imports: [FormsModule, CommonModule, DatePickerComponent],
+  imports: [FormsModule, CommonModule, DatePickerComponent, PaginationComponent],
   templateUrl: './choose-branch.component.html',
   styleUrls: ['./choose-branch.component.scss'],
 })
@@ -28,6 +29,10 @@ export class ChooseBranchComponent implements OnInit {
     { name: 'احوال ضرماء - نساء', location: 'ضرماء' },
     { name: 'احوال الدرعية - نساء', location: 'الدرعية' }
   ];
+
+  // Pagination properties
+  page: number = 1;
+  itemsPerPage: number = 2; // Number of items per page
 
   @Output() branchSelected = new EventEmitter<void>();
 
